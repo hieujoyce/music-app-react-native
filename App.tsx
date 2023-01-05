@@ -1,40 +1,36 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
+import React, {useEffect, useState} from 'react';
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {KeyStorage} from './src/types';
+import {Provider} from 'react-redux';
+import {store} from './src/redux/store';
+import PublicRouter from './src/routers/PublicRouter';
+import PrivateRouter from './src/routers/PrivateRouter';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-
-const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+const App: React.FC = () => {
+  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const checkAccessToken = async () => {
+    try {
+      const accessToken = await AsyncStorage.getItem(KeyStorage.ACCESS_TOKEN);
+      if (accessToken !== null) {
+        // value previously stored
+        setIsLogin(false);
+      }
+      setIsLogin(false);
+    } catch (e) {
+      setIsLogin(false);
+    }
   };
 
+  useEffect(() => {
+    //checkAccessToken();
+  }, []);
+
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <View style={{flex: 1}}>
-        <Text>Hello Hiếu Joyce</Text>
-      </View>
-    </SafeAreaView>
+    //<Provider store={store}>
+    <>{!isLogin ? <PublicRouter /> : <PrivateRouter />}</>
+    //</Provider>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default App;
