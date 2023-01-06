@@ -7,12 +7,14 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
-import React, {useState, FC} from 'react';
+import React, {useState, FC, useEffect} from 'react';
 import {COLOR} from '../types/const';
 import Input from '../components/Input';
 import {validateEmail} from '../utils';
 //import Toast from 'react-native-toast-message';
 import {PropsPublicRouter} from '../routers/PublicRouter';
+import {useAppDispatch} from '../redux/store';
+import {register} from '../redux/user.slice';
 
 interface errFormRegister {
   email: string;
@@ -26,12 +28,13 @@ const Register: FC<PropsPublicRouter> = ({navigation}) => {
   const [usernameValue, setUsernameValue] = useState<string>('');
   const [passwordValue, setPasswordValue] = useState<string>('');
   const [cfPasswordValue, setCfPasswordValue] = useState<string>('');
-  const [errFormRegister, seterrFormRegister] = useState<errFormRegister>({
+  const [errFormRegister, setErrFormRegister] = useState<errFormRegister>({
     email: '',
     username: '',
     password: '',
     cfPassword: '',
   });
+  const dispatch = useAppDispatch();
 
   const handleSubmit = () => {
     let error = {email: '', username: '', password: '', cfPassword: ''};
@@ -72,17 +75,25 @@ const Register: FC<PropsPublicRouter> = ({navigation}) => {
       };
     }
 
-    if (error.email || error.password) {
-      // console.log('Tài khoản hoặc mật khẩu không chính xác.');
-      // Toast.show({
-      //   type: 'error',
-      //   text1: 'Error',
-      //   text2: 'Tài khoản hoặc mật khẩu không chính xác.',
-      // });
-      seterrFormRegister(error);
+    if (error.email || error.password || error.username || error.cfPassword) {
+      setErrFormRegister(error);
       return;
     }
+    dispatch(
+      register({
+        email: emailValue,
+        name: usernameValue,
+        password: passwordValue,
+        cfPassword: cfPasswordValue,
+      }),
+    )
+      .unwrap()
+      .then(() => {})
+      .catch(error => {
+        setErrFormRegister({...error, username: error.name || ''});
+      });
   };
+
   return (
     <SafeAreaView
       style={{flex: 1, backgroundColor: COLOR.white, paddingTop: 30}}>

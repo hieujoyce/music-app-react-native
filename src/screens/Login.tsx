@@ -7,12 +7,14 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
-import React, {useState, FC} from 'react';
+import React, {useState, useEffect, FC} from 'react';
 import {COLOR} from '../types/const';
 import Input from '../components/Input';
 import {validateEmail} from '../utils';
 import Toast from 'react-native-toast-message';
 import {PropsPublicRouter} from '../routers/PublicRouter';
+import {useAppDispatch} from '../redux/store';
+import {login} from '../redux/user.slice';
 
 interface errFormLogin {
   email: string;
@@ -26,6 +28,7 @@ const Login: FC<PropsPublicRouter> = ({navigation}) => {
     email: '',
     password: '',
   });
+  const dispatch = useAppDispatch();
 
   const handleSubmit = () => {
     let error = {email: '', password: ''};
@@ -49,7 +52,9 @@ const Login: FC<PropsPublicRouter> = ({navigation}) => {
         text1: 'Error',
         text2: 'Tài khoản hoặc mật khẩu không chính xác.',
       });
+      return;
     }
+    dispatch(login({email: emailVale, password: passwordValue}));
   };
 
   return (

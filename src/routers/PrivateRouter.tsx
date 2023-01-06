@@ -1,11 +1,20 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Favorites, Home, Playlists, Settings} from '../screens';
+import {RootState, useAppDispatch} from '../redux/store';
+import {fetchAllDataMusic} from '../redux/musicData';
+import {useSelector} from 'react-redux';
 
 const PrivateRouter = () => {
   const Tab = createBottomTabNavigator();
+  const dispatch = useAppDispatch();
+  const {user} = useSelector((state: RootState) => state);
+  useEffect(() => {
+    dispatch(fetchAllDataMusic({assessToken: user.accessToken}));
+  }, []);
+
   return (
     <NavigationContainer>
       <Tab.Navigator
