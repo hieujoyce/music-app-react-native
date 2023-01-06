@@ -11,9 +11,9 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
 import {COLOR} from '../../types/const';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {shortstring, toHHMMSS} from '../../utils';
+import {shortstring} from '../../utils';
 
-const AlbumsView = () => {
+const AlbumsView = ({navigation}: {navigation: any}) => {
   const {musicData} = useSelector((state: RootState) => state);
   return (
     <>
@@ -66,6 +66,9 @@ const AlbumsView = () => {
           {musicData.albums.data.map((el, i) => {
             return (
               <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('DetailAlbum', {albumId: el._id});
+                }}
                 key={el._id}
                 style={[
                   {

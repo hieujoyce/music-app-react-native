@@ -18,7 +18,7 @@ import {
   SuggestedView,
 } from '../components/home/index';
 
-const Home = () => {
+const Home = ({navigation}: {navigation: any}) => {
   let navLinks = [
     {name: 'Suggested', component: SuggestedView},
     {name: 'Songs', component: SongsView},
@@ -109,7 +109,7 @@ const Home = () => {
       </View>
 
       <View>
-        <ComponentView />
+        <ComponentView navigation={navigation} />
       </View>
     </SafeAreaView>
   );

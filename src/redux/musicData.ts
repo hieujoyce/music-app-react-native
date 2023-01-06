@@ -11,7 +11,7 @@ export const fetchAllDataMusic = createAsyncThunk(
   'musicData/fetchAllDataMusic',
   async ({assessToken}: {assessToken: string}, thunkAPI) => {
     try {
-      const promise1 = http.get('songs?limit=10', {
+      const promise1 = http.get('songs?limit=15', {
         headers: {authorization: assessToken},
       });
       const promise2 = http.get('artist', {

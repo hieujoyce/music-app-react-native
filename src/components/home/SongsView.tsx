@@ -8,13 +8,15 @@ import {
 } from 'react-native';
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {RootState} from '../../redux/store';
+import {RootState, useAppDispatch} from '../../redux/store';
 import {COLOR} from '../../types/const';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {shortstring, toHHMMSS} from '../../utils';
+import {addTarget} from '../../redux/listeningMusic.slice';
 
-const SongsView = () => {
+const SongsView = ({navigation}: {navigation: any}) => {
   const {musicData} = useSelector((state: RootState) => state);
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -57,6 +59,10 @@ const SongsView = () => {
         {musicData.songs.data.map((el, i) => {
           return (
             <TouchableOpacity
+              onPress={() => {
+                dispatch(addTarget({target: el, type: 'songs'}));
+                navigation.navigate('ListenMusic');
+              }}
               key={el._id}
               style={{
                 flexDirection: 'row',

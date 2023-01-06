@@ -13,7 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {shortstring} from '../../utils';
 import React from 'react';
 
-const ArtistsView = () => {
+const ArtistsView = ({navigation}: {navigation: any}) => {
   const {musicData} = useSelector((state: RootState) => state);
   return (
     <>
@@ -56,6 +56,9 @@ const ArtistsView = () => {
         {musicData.artists.data.map((el, i) => {
           return (
             <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('DetailArtist', {artistId: el._id});
+              }}
               key={el._id}
               style={{
                 flexDirection: 'row',

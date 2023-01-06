@@ -10,7 +10,7 @@ export interface IArtist {
   songsAmount: number;
   ablumsAmount: number;
   time?: number;
-  songs?: any;
+  songs?: Array<any>;
 }
 
 export interface ISong {
@@ -43,6 +43,7 @@ export interface IUser {
 }
 
 export interface IAlbum {
+  _id: string;
   id: number;
   title: string;
   label: string;
@@ -51,6 +52,8 @@ export interface IAlbum {
   releaseDate: string;
   songsAmount: number;
   songs: Array<any>;
+  songsAlbum?: Array<any>;
+  time?: number;
 }
 
 export interface ILoginForm {
