@@ -3,7 +3,7 @@ export enum KeyStorage {
 }
 
 export interface IArtist {
-  _id: number;
+  _id: string;
   id: number;
   name: string;
   image: string;

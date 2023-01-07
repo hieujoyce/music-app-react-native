@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Login, Register} from '../screens';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import Sound from 'react-native-sound';
 
 const PublicRouter = () => {
   const Stack = createNativeStackNavigator();

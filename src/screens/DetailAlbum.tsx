@@ -175,7 +175,9 @@ const DetailAlbum = ({route, navigation}: {route: any; navigation: any}) => {
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    dispatch(addTarget({target: el, type: 'artist'}));
+                    dispatch(
+                      addTarget({target: el, type: 'album', id: albumId}),
+                    );
                     navigation.navigate('ListenMusic');
                   }}
                   key={el._id}
