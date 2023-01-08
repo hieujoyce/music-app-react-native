@@ -14,6 +14,12 @@ const initialState: {
   msg: null,
 };
 
+const excludeActionArr: Array<string> = ['musicData/fetchMoreSongs'];
+
+const isInExcludeActionArr = (actionType: string): boolean => {
+  return excludeActionArr.some(el => actionType.includes(el));
+};
+
 const notifySlice = createSlice({
   name: 'notify',
   initialState,
@@ -21,7 +27,9 @@ const notifySlice = createSlice({
   extraReducers(builder) {
     builder
       .addMatcher<PendingAction>(
-        action => action.type.endsWith('/pending'),
+        action =>
+          action.type.endsWith('/pending') &&
+          !isInExcludeActionArr(action.type),
         (state, action) => {
           state.loading = true;
         },
