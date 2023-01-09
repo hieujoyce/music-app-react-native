@@ -3,6 +3,7 @@ import {useDispatch} from 'react-redux';
 import detailAlbumReducer from './detailAlbum.slice';
 import detailArtistReducer from './detailArtist.slice';
 import listeningMusicReducer from './listeningMusic.slice';
+import modelBottomSheetReducer from './modelBottomSheet';
 import musicDataReducer from './musicData';
 import notifyReducer from './notify.slice';
 import userReducer from './user.slice';
@@ -15,6 +16,7 @@ export const store = configureStore({
     listeningMusic: listeningMusicReducer,
     detailArtist: detailArtistReducer,
     detailAlbum: detailAlbumReducer,
+    modelBottomSheet: modelBottomSheetReducer,
   },
 });
 

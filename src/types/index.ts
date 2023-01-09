@@ -14,7 +14,7 @@ export interface IArtist {
 }
 
 export interface ISong {
-  _id: number;
+  _id: string;
   id: number;
   title: string;
   titleShort: string;

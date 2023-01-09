@@ -8,7 +8,7 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {RootState, useAppDispatch} from '../../redux/store';
 import {COLOR, quantityPerPage} from '../../types/const';
@@ -16,6 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {shortstring, toHHMMSS} from '../../utils';
 import {addTarget} from '../../redux/listeningMusic.slice';
 import {fetchMoreSongs} from '../../redux/musicData';
+import {openModelBottomSheet} from '../../redux/modelBottomSheet';
 
 const SongsView = ({navigation}: {navigation: any}) => {
   const {musicData, user} = useSelector((state: RootState) => state);
@@ -60,7 +61,7 @@ const SongsView = ({navigation}: {navigation: any}) => {
         </View>
       </View>
       <FlatList
-        style={{marginBottom: 170, paddingHorizontal: 20}}
+        style={{paddingBottom: 170, paddingHorizontal: 20}}
         data={musicData.songs.data}
         renderItem={({item: el}) => (
           <TouchableOpacity
@@ -111,11 +112,23 @@ const SongsView = ({navigation}: {navigation: any}) => {
                   color={COLOR.white}
                 />
               </View>
-              <Ionicons
-                name={'ellipsis-vertical-outline'}
-                size={20}
-                color={COLOR.black}
-              />
+              <TouchableOpacity
+                style={{
+                  height: 32,
+                  width: 22,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 32,
+                }}
+                onPress={() =>
+                  dispatch(openModelBottomSheet({type: 'song', el: el}))
+                }>
+                <Ionicons
+                  name={'ellipsis-vertical-outline'}
+                  size={20}
+                  color={COLOR.black}
+                />
+              </TouchableOpacity>
             </View>
           </TouchableOpacity>
         )}

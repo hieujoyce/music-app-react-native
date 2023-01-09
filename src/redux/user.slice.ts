@@ -18,6 +18,21 @@ const initialState: {data: IUser | null; accessToken: string} = {
   accessToken: '',
 };
 
+export const addFavorites = createAsyncThunk(
+  'user/addFavorites',
+  async (body: ILoginForm, thunkAPI) => {
+    try {
+      const response = await http.post('auth/login', body);
+      return response.data;
+    } catch (error: any) {
+      if (error.name === 'AxiosError' && error.response.status === 400) {
+        return thunkAPI.rejectWithValue(error.response.data.error);
+      }
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
 export const login = createAsyncThunk(
   'user/login',
   async (body: ILoginForm, thunkAPI) => {
@@ -35,10 +50,12 @@ export const login = createAsyncThunk(
 
 export const register = createAsyncThunk(
   'user/register',
-  async (body: IRegisterForm, thunkAPI) => {
+  async ({assessToken}: {assessToken: string}, thunkAPI) => {
     try {
-      const response = await http.post('auth/register', body);
-      return response.data;
+      const songsRes = await http.get(``, {
+        headers: {authorization: assessToken},
+      });
+      return songsRes.data;
     } catch (error: any) {
       if (error.name === 'AxiosError' && error.response.status === 400) {
         return thunkAPI.rejectWithValue(error.response.data.error);

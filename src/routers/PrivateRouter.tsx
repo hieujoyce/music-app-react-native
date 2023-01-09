@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef, useMemo, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -15,6 +15,7 @@ import {RootState, useAppDispatch} from '../redux/store';
 import {fetchAllDataMusic} from '../redux/musicData';
 import {useSelector} from 'react-redux';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import BottomSheetCustom from '../components/bottomSeetView/BottomSheetCustom';
 
 const PrivateRouter = () => {
   const Stack = createNativeStackNavigator();
@@ -25,18 +26,21 @@ const PrivateRouter = () => {
   }, []);
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen
-          name="Root"
-          component={BottomNavigator}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen name="ListenMusic" component={ListenMusic} />
-        <Stack.Screen name="DetailArtist" component={DetailArtist} />
-        <Stack.Screen name="DetailAlbum" component={DetailAlbum} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+          <Stack.Screen
+            name="Root"
+            component={BottomNavigator}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen name="ListenMusic" component={ListenMusic} />
+          <Stack.Screen name="DetailArtist" component={DetailArtist} />
+          <Stack.Screen name="DetailAlbum" component={DetailAlbum} />
+        </Stack.Navigator>
+      </NavigationContainer>
+      <BottomSheetCustom />
+    </>
   );
 };
 

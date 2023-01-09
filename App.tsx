@@ -1,13 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {Provider, useSelector} from 'react-redux';
-import {RootState, store} from './src/redux/store';
+import React from 'react';
+import {Provider} from 'react-redux';
+import {store} from './src/redux/store';
 import Routers from './src/routers/Routers';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const App: React.FC = () => {
   return (
-    <Provider store={store}>
-      <Routers />
-    </Provider>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <Provider store={store}>
+        <Routers />
+      </Provider>
+    </GestureHandlerRootView>
   );
 };
 
