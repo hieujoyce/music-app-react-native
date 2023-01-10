@@ -17,15 +17,75 @@ const initialState: {data: IUser | null; accessToken: string} = {
   data: null,
   accessToken: '',
 };
+//user
+
+export const createPlayList = createAsyncThunk(
+  'user/createPlayList',
+  async (
+    {accessToken, name}: {accessToken: string; name: string},
+    thunkAPI,
+  ) => {
+    try {
+      const response = await http.post(
+        `users/playList`,
+        {name},
+        {
+          headers: {authorization: accessToken},
+        },
+      );
+      return response.data;
+    } catch (error: any) {
+      console.log({...error});
+      if (
+        error.name === 'AxiosError' &&
+        (error.response.status === 400 || error.response.status === 500)
+      ) {
+        return thunkAPI.rejectWithValue(error.response.data.error);
+      }
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
 
 export const addFavorites = createAsyncThunk(
   'user/addFavorites',
-  async ({}, thunkAPI) => {
+  async (
+    {accessToken, idSong}: {accessToken: string; idSong: string},
+    thunkAPI,
+  ) => {
     try {
-      const response = await http.post('auth/login');
+      const response = await http.post(`users/favorite/${idSong}`, null, {
+        headers: {authorization: accessToken},
+      });
       return response.data;
     } catch (error: any) {
-      if (error.name === 'AxiosError' && error.response.status === 400) {
+      if (
+        error.name === 'AxiosError' &&
+        (error.response.status === 400 || error.response.status === 500)
+      ) {
+        return thunkAPI.rejectWithValue(error.response.data.error);
+      }
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
+export const deleteFavorites = createAsyncThunk(
+  'user/deleteFavorites',
+  async (
+    {accessToken, idSong}: {accessToken: string; idSong: string},
+    thunkAPI,
+  ) => {
+    try {
+      const response = await http.delete(`users/favorite/${idSong}`, {
+        headers: {authorization: accessToken},
+      });
+      return response.data;
+    } catch (error: any) {
+      if (
+        error.name === 'AxiosError' &&
+        (error.response.status === 400 || error.response.status === 500)
+      ) {
         return thunkAPI.rejectWithValue(error.response.data.error);
       }
       return thunkAPI.rejectWithValue(error.message);
@@ -74,6 +134,21 @@ const userSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      .addCase(createPlayList.fulfilled, (state, action) => {
+        if (state.data) {
+          state.data.playlists = [...action.payload.user.playlists];
+        }
+      })
+      .addCase(addFavorites.fulfilled, (state, action) => {
+        if (state.data) {
+          state.data.favorites = [...action.payload.user.favorites];
+        }
+      })
+      .addCase(deleteFavorites.fulfilled, (state, action) => {
+        if (state.data) {
+          state.data.favorites = [...action.payload.user.favorites];
+        }
+      })
       .addCase(login.fulfilled, (state, action) => {
         state.data = action.payload.user;
         state.accessToken = action.payload.accessToken;

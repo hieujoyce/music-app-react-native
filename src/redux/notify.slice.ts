@@ -14,7 +14,11 @@ const initialState: {
   msg: null,
 };
 
-const excludeActionArr: Array<string> = ['musicData/fetchMoreSongs'];
+const excludeActionArr: Array<string> = [
+  'musicData/fetchMoreSongs',
+  'user/addFavorites',
+  'user/deleteFavorites',
+];
 
 const isInExcludeActionArr = (actionType: string): boolean => {
   return excludeActionArr.some(el => actionType.includes(el));

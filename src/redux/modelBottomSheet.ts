@@ -21,19 +21,26 @@ interface IPayLoadActionArtist {
   el: any;
 }
 
+interface IPayLoadActionPlaylistAdd {
+  type: 'playlistAdd';
+  el: null;
+}
+
 const modelBottomSheetSlice = createSlice({
   name: 'modelBottomSheet',
   initialState,
   reducers: {
     openModelBottomSheet: (
       state,
-      action: PayloadAction<IPayLoadActionSong | IPayLoadActionArtist>,
+      action: PayloadAction<
+        IPayLoadActionSong | IPayLoadActionArtist | IPayLoadActionPlaylistAdd
+      >,
     ) => {
       state.isShowBottomSheet = true;
       state.type = action.payload.type;
       state.el = action.payload.el;
     },
-    closeModelBottomSheet: (state, payload: PayloadAction) => {
+    closeModelBottomSheet: (state, action: PayloadAction) => {
       state.isShowBottomSheet = false;
     },
   },

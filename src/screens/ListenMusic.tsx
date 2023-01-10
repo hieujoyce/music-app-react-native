@@ -38,7 +38,6 @@ const ListenMusic = ({navigation}: {navigation: any}) => {
     } else {
       let sound1 = new Sound(listeningMusic.target?.src, '', error => {
         if (error) {
-          console.log('error' + error.message);
           return;
         }
 

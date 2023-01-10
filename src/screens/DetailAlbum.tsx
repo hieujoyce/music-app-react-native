@@ -40,8 +40,6 @@ const DetailAlbum = ({route, navigation}: {route: any; navigation: any}) => {
     }
   }, [detailAlbum.length]);
 
-  // console.log(dataDetailAlbum);
-
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLOR.white}}>
       <View

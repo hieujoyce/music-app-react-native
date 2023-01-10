@@ -61,7 +61,7 @@ const SongsView = ({navigation}: {navigation: any}) => {
         </View>
       </View>
       <FlatList
-        style={{paddingBottom: 170, paddingHorizontal: 20}}
+        style={{marginBottom: 170, paddingHorizontal: 20}}
         data={musicData.songs.data}
         renderItem={({item: el}) => (
           <TouchableOpacity

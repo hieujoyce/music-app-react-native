@@ -1,11 +1,12 @@
-import {StyleSheet, Text, View, TouchableWithoutFeedback} from 'react-native';
-import React, {useRef, useMemo, useState, useEffect} from 'react';
+import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
+import React, {useRef, useMemo, useEffect} from 'react';
 import BottomSheet, {BottomSheetBackdropProps} from '@gorhom/bottom-sheet';
 import {useSelector} from 'react-redux';
 import {RootState, useAppDispatch} from '../../redux/store';
 import {closeModelBottomSheet} from '../../redux/modelBottomSheet';
 import BottomSheetSongView from './BottomSheetSongView';
 import {ISong} from '../../types';
+import BottomSheetPlaylistAddView from './BottomSheetPlaylistAddView';
 
 const BottomSheetCustom = () => {
   const bottomSheetMolalRef = useRef<BottomSheet>(null);
@@ -15,13 +16,22 @@ const BottomSheetCustom = () => {
     switch (modelBottomSheet.type) {
       case 'song':
         return <BottomSheetSongView el={modelBottomSheet.el as ISong} />;
+      case 'playlistAdd':
+        return <BottomSheetPlaylistAddView />;
       default:
         return null;
     }
   };
+  useEffect(() => {
+    if (modelBottomSheet.isShowBottomSheet === false) {
+      bottomSheetMolalRef.current?.close();
+    }
+  }, [modelBottomSheet.isShowBottomSheet]);
   const snapPoints = useMemo(() => {
     let p = '50%';
-    if (modelBottomSheet.type === 'song') {
+    if (modelBottomSheet.type === 'playlistAdd') {
+      p = '35%';
+    } else if (modelBottomSheet.type === 'song') {
       p = '75%';
     }
     return [p];
@@ -29,6 +39,7 @@ const BottomSheetCustom = () => {
 
   return (
     <BottomSheet
+      keyboardBlurBehavior="restore"
       enablePanDownToClose={false}
       backgroundStyle={{borderRadius: 30}}
       ref={bottomSheetMolalRef}
@@ -46,7 +57,6 @@ const BottomSheetCustom = () => {
         return (
           <TouchableWithoutFeedback
             onPress={() => {
-              bottomSheetMolalRef.current?.close();
               dispatch(closeModelBottomSheet());
             }}>
             <View style={containerStyle}></View>

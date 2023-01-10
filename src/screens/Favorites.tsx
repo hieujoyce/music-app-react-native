@@ -16,7 +16,6 @@ import {shortstring, toHHMMSS} from '../utils';
 
 const Favorites = () => {
   const {user} = useSelector((state: RootState) => state);
-  console.log(user.data);
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLOR.white}}>
