@@ -32,7 +32,7 @@ const BottomSheetCustom = () => {
     if (modelBottomSheet.type === 'playlistAdd') {
       p = '35%';
     } else if (modelBottomSheet.type === 'song') {
-      p = '75%';
+      p = '78%';
     }
     return [p];
   }, [modelBottomSheet.type]);

@@ -15,12 +15,55 @@ import {useSelector} from 'react-redux';
 import {RootState, useAppDispatch} from '../../redux/store';
 import {addFavorites, deleteFavorites} from '../../redux/user.slice';
 import Toast from 'react-native-toast-message';
-import {closeModelBottomSheet} from '../../redux/modelBottomSheet';
+//import {closeModelBottomSheet} from '../../redux/modelBottomSheet';
 
 const BottomSheetSongView = ({el}: {el: ISong}) => {
   const {user} = useSelector((state: RootState) => state);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
+  const menu = [
+    {
+      icon: 'arrow-forward-circle-outline',
+      ctx: 'Play Next',
+    },
+    {
+      icon: 'document-text-outline',
+      ctx: 'Add to Playing Queue',
+    },
+    {
+      icon: 'add-circle-outline',
+      ctx: 'Add to Playlist',
+    },
+    {
+      icon: 'caret-forward-circle-outline',
+      ctx: 'Go to Album',
+    },
+    {
+      icon: 'person-outline',
+      ctx: 'Go to Artist',
+    },
+    {
+      icon: 'information-circle-outline',
+      ctx: 'Detail',
+    },
+    {
+      icon: 'call-outline',
+      ctx: 'Set as Ringtone',
+    },
+    {
+      icon: 'close-circle-outline',
+      ctx: 'Add to Blacklist',
+    },
+    {
+      icon: 'paper-plane-outline',
+      ctx: 'Share',
+    },
+    {
+      icon: 'trash-outline',
+      ctx: 'Delete from Device',
+    },
+  ];
+
   const handleAddFavorite = (id: string) => {
     setLoading(true);
     dispatch(addFavorites({idSong: id, accessToken: user.accessToken}))
@@ -115,10 +158,36 @@ const BottomSheetSongView = ({el}: {el: ISong}) => {
         </View>
       </View>
       <View style={{borderTopColor: COLOR.gray1, borderTopWidth: 1}}></View>
+      {/* List menu */}
+      <View style={{}}>
+        {menu.map((el, index) => {
+          return (
+            <TouchableOpacity
+              key={index}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                height: 44,
+              }}>
+              <Ionicons name={el.icon} size={28} color={COLOR.black} />
+              <Text
+                style={{
+                  color: COLOR.black,
+                  marginLeft: 15,
+                  fontSize: 16,
+                  fontWeight: '600',
+                }}>
+                {el.ctx}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
     </View>
   );
 };
 
 export default BottomSheetSongView;
 //<ion-icon name="heart-outline"></ion-icon>
+//<ion-icon name="arrow-forward-circle-outline"></ion-icon>
 const styles = StyleSheet.create({});
